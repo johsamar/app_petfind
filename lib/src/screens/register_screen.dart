@@ -1,3 +1,5 @@
+import 'package:app_petfind/src/helpers/config_forms/user_register/structure.dart';
+import 'package:app_petfind/src/helpers/functions/inputs.dart';
 import 'package:flutter/material.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -6,8 +8,27 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final _usernameController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+  final _phoneNumberController = TextEditingController();
+
   String selectedCountryCode = '+57';
   bool termsAndConditionsAccepted = false;
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _nameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    _phoneNumberController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,47 +46,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ),
           Text('Bienvenido, por favor regístrate'),
 
-          // Campos de entrada
-          TextField(
-            decoration: InputDecoration(labelText: 'Nombre de usuario'),
-          ),
-          TextField(
-            decoration: InputDecoration(labelText: 'Nombre'),
-          ),
-          TextField(
-            decoration: InputDecoration(labelText: 'Correo electrónico'),
-          ),
-          TextField(
-            decoration: InputDecoration(labelText: 'Contraseña'),
-            obscureText: true,
-          ),
-          TextField(
-            decoration: InputDecoration(labelText: 'Confirmar contraseña'),
-            obscureText: true,
-          ),
-
-          // Campo de selección de indicativo
-          DropdownButtonFormField<String>(
-            value: selectedCountryCode,
-            onChanged: (String? newValue) {
-              setState(() {
-                selectedCountryCode = newValue!;
-              });
-            },
-            items: <String>['+57', '+34'].map<DropdownMenuItem<String>>(
-              (String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              },
-            ).toList(),
-          ),
-
-          // Campo de entrada para el número de teléfono
-          TextField(
-            decoration: InputDecoration(labelText: 'Número de celular'),
-          ),
+          createTextInput(username(_usernameController)),
+          createTextInput(name(_nameController)),
+          createTextInput(email(_emailController)),
+          createTextInput(password(_passwordController)),
+          createTextInput(password(_confirmPasswordController)),
+          createTextInput(phoneNumber(_phoneNumberController)),
 
           // Botón para cargar imagen de perfil
           ElevatedButton(

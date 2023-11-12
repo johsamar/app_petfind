@@ -46,5 +46,3 @@ InputModel phoneNumber(TextEditingController controller) {
     validator: validatePhoneNumber,
   );
 }
-
-

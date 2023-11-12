@@ -1,3 +1,4 @@
+import 'package:app_petfind/src/screens/register_pet.dart';
 import 'package:app_petfind/src/screens/welcome_screen.dart';
 import 'package:app_petfind/src/screens/chat_bot_screen.dart';
 import 'package:app_petfind/src/screens/register_screen.dart';
@@ -15,11 +16,12 @@ class AppRoutes {
   static const String report = '/report';
   static const String chat = '/chat';
   static const String map = '/map';
+  static const String register_pet = '/register_pet';
 
   static Map<String, WidgetBuilder> routes(BuildContext context) => {
         welcome: (context) => WelcomeScreen(),
         // home: (context) => HomeScreen(),
-        // login: (context) =>  LoginScreen(),
+        register_pet: (context) =>  RegisterPetScreen(),
         report: (context) =>  PetReportScreen(),
         register: (context) =>  RegisterScreen(),
         chat: (context) =>  ChatBotScreen(),

@@ -36,7 +36,7 @@ class WelcomeScreen extends StatelessWidget {
 
             ElevatedButton(
               onPressed: () {
-                // Aquí puedes agregar la acción cuando se presione el botón
+                Navigator.pushNamed(context, '/chat');
               },
               child: const Text("Let's Get Started"),
             ),

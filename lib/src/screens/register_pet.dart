@@ -6,7 +6,6 @@ import 'package:app_petfind/src/helpers/functions/inputs.dart';
 import 'package:app_petfind/src/models/PetModel.dart';
 import 'package:app_petfind/src/screens/charge_images.dart';
 import 'package:app_petfind/src/services/pet_service.dart';
-// import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPetScreen extends StatefulWidget {
@@ -30,9 +29,6 @@ class _RegisterPetScreenState extends State<RegisterPetScreen> {
   String? sizeSelected;
   String? ageSelected;
 
-  String selectedCountryCode = '+57';
-  bool termsAndConditionsAccepted = false;
-
   @override
   void dispose() {
     _nameController.dispose();
@@ -45,21 +41,21 @@ class _RegisterPetScreenState extends State<RegisterPetScreen> {
     super.dispose();
   }
 
-  // List<Asset> _selectedImages = [];
-  // Future<void> _openImagePickerScreen() async {
-  //   final result = await Navigator.push(
-  //     context,
-  //     MaterialPageRoute(
-  //       builder: (context) => ImagePickerScreen(),
-  //     ),
-  //   );
+  List<File> _selectedImages = [];
+  Future<void> _openImagePickerScreen() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MultipleImageSelector(),
+      ),
+    );
 
-  //   if (result != null && result is List<Asset>) {
-  //     setState(() {
-  //       _selectedImages = result;
-  //     });
-  //   }
-  // }
+    if (result != null && result is List<File>) {
+      setState(() {
+        _selectedImages = result;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -135,20 +131,20 @@ class _RegisterPetScreenState extends State<RegisterPetScreen> {
                 ),
 
                 // Botón para cargar imagen de perfil
-                // ElevatedButton(
-                //   onPressed: _openImagePickerScreen,
-                //   child: const Text('Cargar fotos de la mascota'),
-                // ),
-                // Column(
-                //     children: _selectedImages
-                //         .map((asset) => Text(asset.name!))
-                //         .toList()),
+                ElevatedButton(
+                  onPressed: _openImagePickerScreen,
+                  child: const Text('Cargar fotos de la mascota'),
+                ),
+                Column(
+                    children: _selectedImages
+                        .map((image) => Text(image.path.split("/").last))
+                        .toList()),
 
                 // Botón de registro
-                // ElevatedButton(
-                //   onPressed: _savePet,
-                //   child: const Text('Registrar'),
-                // ),
+                ElevatedButton(
+                  onPressed: _savePet,
+                  child: const Text('Registrar'),
+                ),
               ],
             ),
           ),
@@ -157,46 +153,46 @@ class _RegisterPetScreenState extends State<RegisterPetScreen> {
     );
   }
 
-  // Future<void> _savePet() async {
-  //   if (_formKey.currentState!.validate()) {
-  //     _validateSelects();
-  //     // _isLoading = true;
+  Future<void> _savePet() async {
+    if (_formKey.currentState!.validate()) {
+      _validateSelects();
+      // _isLoading = true;
 
-  //     PetModel pet = PetModel(
-  //       name: _nameController.text,
-  //       details: _detailController.text,
-  //       specie: _specieController.text,
-  //       breed: _breedController.text,
-  //       color: _colorController.text,
-  //       size: _sizeController.text,
-  //       age: _ageController.text,
-  //       owner: '1',
-  //     );
+      PetModel pet = PetModel(
+        name: _nameController.text,
+        details: _detailController.text,
+        specie: _specieController.text,
+        breed: _breedController.text,
+        color: _colorController.text,
+        size: _sizeController.text,
+        age: _ageController.text,
+        owner: '657f70180062fc8b9d98797c',
+      );
 
-  //     var response = createPet(pet, _selectedImages);
+      var response = createPet(pet, _selectedImages);
 
-  //     response.then((value) => {
-  //           //Si es verdadero se muestra el mensaje de éxito y vuleve la pantalla anterior
-  //           if (value == true)
-  //             {
-  //               // _isLoading = false,
-  //               ScaffoldMessenger.of(context).showSnackBar(
-  //                 const SnackBar(content: Text('Mascota creado con éxito')),
-  //               ),
-  //               Navigator.pushReplacementNamed(context, '/chat')
-  //             }
+      response.then((value) => {
+            //Si es verdadero se muestra el mensaje de éxito y vuleve la pantalla anterior
+            if (value == true)
+              {
+                // _isLoading = false,
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Mascota creado con éxito')),
+                ),
+                Navigator.pushReplacementNamed(context, '/chat')
+              }
 
-  //           //Si es falso se muestra el mensaje de error
-  //           else
-  //             {
-  //               // _isLoading = false,
-  //               ScaffoldMessenger.of(context).showSnackBar(
-  //                 const SnackBar(content: Text('Error al crear la mascota')),
-  //               )
-  //             }
-  //         });
-  //   }
-  // }
+            //Si es falso se muestra el mensaje de error
+            else
+              {
+                // _isLoading = false,
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Error al crear la mascota')),
+                )
+              }
+          });
+    }
+  }
 
   _validateSelects() {
     if (_specieController.text.isEmpty) {

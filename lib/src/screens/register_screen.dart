@@ -111,7 +111,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   onPressed: _openSelectLocation,
                   child: Text('Cargar mapa para ubicación'),
                 ),
-
+                Center(
+                    child: _selectedLocation == null
+                        ? Text('No location selected.')
+                        : Text(
+                            'Ubicación seleccionada: ${_selectedLocation.latitude}, ${_selectedLocation.longitude}')),
                 // Checkbox para aceptar términos y condiciones
                 Row(
                   children: <Widget>[

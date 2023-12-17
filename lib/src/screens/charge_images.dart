@@ -1,84 +1,99 @@
-// import 'package:flutter/material.dart';
-// import 'package:multi_image_picker/multi_image_picker.dart';
+import 'dart:io';
 
-// class ImagePickerScreen extends StatefulWidget {
-//   @override
-//   _ImagePickerScreenState createState() => _ImagePickerScreenState();
-// }
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
-// class _ImagePickerScreenState extends State<ImagePickerScreen> {
-//   List<Asset> _images = <Asset>[];
+class MultipleImageSelector extends StatefulWidget {
+  const MultipleImageSelector({super.key});
 
-//   Future<void> _pickImages() async {
-//     List<Asset> resultList = <Asset>[];
-//     try {
-//       resultList = await MultiImagePicker.pickImages(
-//         maxImages: 10,
-//         enableCamera: true,
-//         selectedAssets: _images,
-//         cupertinoOptions: CupertinoOptions(
-//           takePhotoIcon: "chat",
-//         ),
-//         materialOptions: MaterialOptions(
-//           actionBarColor: "#abcdef",
-//           actionBarTitle: "Seleccionar Imágenes",
-//           allViewTitle: "Todas las Imágenes",
-//           useDetailsView: false,
-//           selectCircleStrokeColor: "#000000",
-//         ),
-//       );
-//     } catch (e) {
-//       // Maneja errores aquí
-//     }
+  @override
+  State<MultipleImageSelector> createState() => _MultipleImageSelectorState();
+}
 
-//     if (!mounted) return;
+class _MultipleImageSelectorState extends State<MultipleImageSelector> {
+  List<File> selectedImages = [];
+  final picker = ImagePicker();
 
-//     setState(() {
-//       _images = resultList;
-//     });
-//   }
+  void _finishSelection() {
+    // Navega hacia atrás y pasa las imágenes seleccionadas como resultado.
+    Navigator.of(context).pop(selectedImages);
+  }
 
-//   void _finishSelection() {
-//     // Navega hacia atrás y pasa las imágenes seleccionadas como resultado.
-//     Navigator.of(context).pop(_images);
-//   }
+  @override
+  Widget build(BuildContext context) {
+    // display image selected from gallery
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Multiple Images Select'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(
+              height: 20,
+            ),
+            ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.green)),
+              child: const Text('Select Image from Gallery and Camera'),
+              onPressed: () {
+                getImages();
+              },
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 18.0),
+              child: Text(
+                "GFG",
+                style: TextStyle(color: Colors.green),
+              ),
+            ),
+            Expanded(
+              child: SizedBox(
+                width: 300.0,
+                child: selectedImages.isEmpty
+                    ? const Center(child: Text('Sorry nothing selected!!'))
+                    : GridView.builder(
+                        itemCount: selectedImages.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3),
+                        itemBuilder: (BuildContext context, int index) {
+                          return Center(
+                              child: kIsWeb
+                                  ? Image.network(selectedImages[index].path)
+                                  : Image.file(selectedImages[index]));
+                        },
+                      ),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: _finishSelection,
+              child: Text('Terminar'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('MultiImagePicker Screen'),
-//       ),
-//       body: Column(
-//         children: [
-//           ElevatedButton.icon(
-//             onPressed: _pickImages,
-//             icon: Icon(Icons.add_a_photo),
-//             label: Text('Seleccionar Imágenes'),
-//           ),
-//           Expanded(
-//             child: GridView.builder(
-//               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-//                 crossAxisCount: 3,
-//                 crossAxisSpacing: 4.0,
-//                 mainAxisSpacing: 4.0,
-//               ),
-//               itemCount: _images.length,
-//               itemBuilder: (context, index) {
-//                 return AssetThumb(
-//                   asset: _images[index],
-//                   width: 300,
-//                   height: 300,
-//                 );
-//               },
-//             ),
-//           ),
-//           ElevatedButton(
-//             onPressed: _finishSelection,
-//             child: Text('Terminar'),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
+  Future getImages() async {
+    final pickedFile = await picker.pickMultiImage(
+        imageQuality: 100, maxHeight: 1000, maxWidth: 1000);
+    List<XFile> xfilePick = pickedFile;
+
+    setState(
+      () {
+        if (xfilePick.isNotEmpty) {
+          for (var i = 0; i < xfilePick.length; i++) {
+            selectedImages.add(File(xfilePick[i].path));
+          }
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Nothing is selected')));
+        }
+      },
+    );
+  }
+}

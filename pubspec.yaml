@@ -41,8 +41,12 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   image_picker: ^1.0.4
-  multi_image_picker: ^4.8.01
   flutter_map: ^6.0.1
+  dio: ^5.4.0
+  json_annotation: ^4.8.1
+  firebase_core: ^2.24.2
+  firebase_messaging: ^14.7.9
+  firebase_analytics: ^10.7.4
 
 dev_dependencies:
   flutter_test:

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "656441120853",
+    "project_id": "petfindai",
+    "storage_bucket": "petfindai.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:656441120853:android:916e1d2be6f36e4c6edcdc",
+        "android_client_info": {
+          "package_name": "com.example.app_petfind"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBO8iGJB1n8ML97XeAwHrDp4XIopyLROAI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

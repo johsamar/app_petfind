@@ -1,7 +1,12 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:app_petfind/src/helpers/config_forms/register_pet/structure.dart';
 import 'package:app_petfind/src/helpers/functions/inputs.dart';
+import 'package:app_petfind/src/models/PetModel.dart';
 import 'package:app_petfind/src/screens/charge_images.dart';
-import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:app_petfind/src/services/pet_service.dart';
+// import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPetScreen extends StatefulWidget {
@@ -40,21 +45,21 @@ class _RegisterPetScreenState extends State<RegisterPetScreen> {
     super.dispose();
   }
 
-  List<Asset> _selectedImages = [];
-  Future<void> _openImagePickerScreen() async {
-    final result = await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ImagePickerScreen(),
-      ),
-    );
+  // List<Asset> _selectedImages = [];
+  // Future<void> _openImagePickerScreen() async {
+  //   final result = await Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (context) => ImagePickerScreen(),
+  //     ),
+  //   );
 
-    if (result != null && result is List<Asset>) {
-      setState(() {
-        _selectedImages = result;
-      });
-    }
-  }
+  //   if (result != null && result is List<Asset>) {
+  //     setState(() {
+  //       _selectedImages = result;
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -130,20 +135,20 @@ class _RegisterPetScreenState extends State<RegisterPetScreen> {
                 ),
 
                 // Botón para cargar imagen de perfil
-                ElevatedButton(
-                  onPressed: _openImagePickerScreen,
-                  child: const Text('Cargar fotos de la mascota'),
-                ),
-                Column(
-                    children: _selectedImages
-                        .map((asset) => Text(asset.name!))
-                        .toList()),
+                // ElevatedButton(
+                //   onPressed: _openImagePickerScreen,
+                //   child: const Text('Cargar fotos de la mascota'),
+                // ),
+                // Column(
+                //     children: _selectedImages
+                //         .map((asset) => Text(asset.name!))
+                //         .toList()),
 
                 // Botón de registro
-                ElevatedButton(
-                  onPressed: _savePet,
-                  child: const Text('Registrar'),
-                ),
+                // ElevatedButton(
+                //   onPressed: _savePet,
+                //   child: const Text('Registrar'),
+                // ),
               ],
             ),
           ),
@@ -152,35 +157,46 @@ class _RegisterPetScreenState extends State<RegisterPetScreen> {
     );
   }
 
-  Future<void> _savePet() async {
-    if (_formKey.currentState!.validate()) {
-      _validateSelects();
-      // _isLoading = true;
+  // Future<void> _savePet() async {
+  //   if (_formKey.currentState!.validate()) {
+  //     _validateSelects();
+  //     // _isLoading = true;
 
-      // var response = createLot(lote);
+  //     PetModel pet = PetModel(
+  //       name: _nameController.text,
+  //       details: _detailController.text,
+  //       specie: _specieController.text,
+  //       breed: _breedController.text,
+  //       color: _colorController.text,
+  //       size: _sizeController.text,
+  //       age: _ageController.text,
+  //       owner: '1',
+  //     );
 
-      // response.then((value) => {
-      //       //Si es verdadero se muestra el mensaje de éxito y vuleve la pantalla anterior
-      //       if (value == true)
-      //         {
-      //           // _isLoading = false,
-      //           ScaffoldMessenger.of(context).showSnackBar(
-      //             const SnackBar(content: Text('Lote creado con éxito')),
-      //           ),
-      //           Navigator.pushReplacementNamed(context, '/lots')
-      //         }
+  //     var response = createPet(pet, _selectedImages);
 
-      //       //Si es falso se muestra el mensaje de error
-      //       else
-      //         {
-      //           // _isLoading = false,
-      //           ScaffoldMessenger.of(context).showSnackBar(
-      //             const SnackBar(content: Text('Error al crear el lote')),
-      //           )
-      //         }
-      //     });
-    }
-  }
+  //     response.then((value) => {
+  //           //Si es verdadero se muestra el mensaje de éxito y vuleve la pantalla anterior
+  //           if (value == true)
+  //             {
+  //               // _isLoading = false,
+  //               ScaffoldMessenger.of(context).showSnackBar(
+  //                 const SnackBar(content: Text('Mascota creado con éxito')),
+  //               ),
+  //               Navigator.pushReplacementNamed(context, '/chat')
+  //             }
+
+  //           //Si es falso se muestra el mensaje de error
+  //           else
+  //             {
+  //               // _isLoading = false,
+  //               ScaffoldMessenger.of(context).showSnackBar(
+  //                 const SnackBar(content: Text('Error al crear la mascota')),
+  //               )
+  //             }
+  //         });
+  //   }
+  // }
 
   _validateSelects() {
     if (_specieController.text.isEmpty) {
@@ -214,4 +230,19 @@ class _RegisterPetScreenState extends State<RegisterPetScreen> {
       return;
     }
   }
+
+  // Future<List<File>> convertAssetsToFiles(List<Asset> assets) async {
+  //   List<File> files = [];
+
+  //   for (Asset asset in assets) {
+  //     ByteData byteData = await asset.getByteData();
+  //     Uint8List uint8List = byteData.buffer.asUint8List();
+  //     File file = File.fromRawPath(uint8List.buffer.asUint8List());
+  //     files.add(file);
+  //     //para ver el nombre del archivo y el path
+  //     print('file: ${file.path} ');
+  //   }
+
+  //   return files;
+  // }
 }

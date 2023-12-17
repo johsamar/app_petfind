@@ -4,15 +4,16 @@ import 'package:app_petfind/src/screens/chat_bot_screen.dart';
 import 'package:app_petfind/src/screens/register_screen.dart';
 import 'package:app_petfind/src/screens/pet_report_screen.dart';
 import 'package:app_petfind/src/screens/map_screen.dart';
-import 'package:app_petfind/src/screens/charge_images.dart';
+// import 'package:app_petfind/src/screens/charge_images.dart';
+import 'package:app_petfind/src/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
 //clase
 
 class AppRoutes {
   static const String welcome = '/';
-  static const String home = '/login';
-  static const String login = '/home';
+  static const String home = '/home';
+  static const String login = '/login';
   static const String register = '/register';
   static const String report = '/report';
   static const String chat = '/chat';
@@ -22,7 +23,9 @@ class AppRoutes {
 
   static Map<String, WidgetBuilder> routes(BuildContext context) => {
         welcome: (context) => WelcomeScreen(),
-        picker: (context) => ImagePickerScreen(),
+        home: (context) => WelcomeScreen(),
+        login: (context) => LoginScreen(),
+        // picker: (context) => ImagePickerScreen(),
         register_pet: (context) =>  RegisterPetScreen(),
         report: (context) =>  PetReportScreen(),
         register: (context) =>  RegisterScreen(),

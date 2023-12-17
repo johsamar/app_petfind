@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:app_petfind/src/helpers/config_forms/user_register/structure.dart';
 import 'package:app_petfind/src/helpers/functions/inputs.dart';
+import 'package:app_petfind/src/models/UserModel.dart';
 import 'package:app_petfind/src/screens/select_location.dart';
+import 'package:app_petfind/src/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
@@ -142,28 +144,40 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (_formKey.currentState!.validate()) {
       // _isLoading = true;
 
-      // var response = createLot(lote);
+      UserModel user = UserModel(
+        username: _usernameController.text,
+        name: _nameController.text,
+        email: _emailController.text,
+        password: _passwordController.text,
+        cellphone: _phoneNumberController.text,
+        location: _selectedLocation.toString(),
+      );
 
-      // response.then((value) => {
-      //       //Si es verdadero se muestra el mensaje de éxito y vuleve la pantalla anterior
-      //       if (value == true)
-      //         {
-      //           // _isLoading = false,
-      //           ScaffoldMessenger.of(context).showSnackBar(
-      //             const SnackBar(content: Text('Lote creado con éxito')),
-      //           ),
-      //           Navigator.pushReplacementNamed(context, '/lots')
-      //         }
+      var response = createUser(
+        user,
+        File(_imageFile!.path),
+      );
 
-      //       //Si es falso se muestra el mensaje de error
-      //       else
-      //         {
-      //           // _isLoading = false,
-      //           ScaffoldMessenger.of(context).showSnackBar(
-      //             const SnackBar(content: Text('Error al crear el lote')),
-      //           )
-      //         }
-      //     });
+      response.then((value) => {
+            //Si es verdadero se muestra el mensaje de éxito y vuleve la pantalla anterior
+            if (value == true)
+              {
+                // _isLoading = false,
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Usuario creado con éxito')),
+                ),
+                Navigator.pushReplacementNamed(context, '/chat')
+              }
+
+            //Si es falso se muestra el mensaje de error
+            else
+              {
+                // _isLoading = false,
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Error al crear el usuario')),
+                )
+              }
+          });
     }
   }
 }

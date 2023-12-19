@@ -10,6 +10,7 @@ class PetModel {
   String color;
   String size;
   String age;
+  List<String>? images;
   String owner;
 
   PetModel(
@@ -21,6 +22,7 @@ class PetModel {
       required this.color,
       required this.size,
       required this.age,
+      this.images,
       required this.owner});
 
   factory PetModel.fromJson(Map<String, dynamic> json) => PetModel(
@@ -32,6 +34,9 @@ class PetModel {
         color: json['color'],
         size: json['size'],
         age: json['age'],
+        images: json['images'] != null
+            ? List<String>.from(json['images'].map((x) => x))
+            : null,
         owner: json['owner'],
       );
 
@@ -44,6 +49,7 @@ class PetModel {
         'color': color,
         'size': size,
         'age': age,
+        'images': images != null ? List<dynamic>.from(images!.map((x) => x)) : null,
         'owner': owner,
       };
 }

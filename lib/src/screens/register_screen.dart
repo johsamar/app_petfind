@@ -38,7 +38,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   XFile? _imageFile;
-  late LatLng _selectedLocation;
+  LatLng? _selectedLocation;
 
   Future<void> _pickImage() async {
     final pickedFile =
@@ -115,7 +115,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     child: _selectedLocation == null
                         ? Text('No location selected.')
                         : Text(
-                            'Ubicación seleccionada: ${_selectedLocation.latitude}, ${_selectedLocation.longitude}')),
+                            'Ubicación seleccionada: ${_selectedLocation!.latitude}, ${_selectedLocation!.longitude}')),
                 // Checkbox para aceptar términos y condiciones
                 Row(
                   children: <Widget>[
@@ -149,13 +149,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
       // _isLoading = true;
 
       UserModel user = UserModel(
-        username: _usernameController.text,
-        name: _nameController.text,
-        email: _emailController.text,
-        password: _passwordController.text,
-        cellphone: _phoneNumberController.text,
-        location: _selectedLocation.toString(),
-      );
+          username: _usernameController.text,
+          name: _nameController.text,
+          email: _emailController.text,
+          password: _passwordController.text,
+          cellphone: _phoneNumberController.text,
+          location: [
+            _selectedLocation!.latitude,
+            _selectedLocation!.longitude
+          ]);
 
       var response = createUser(
         user,

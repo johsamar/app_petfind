@@ -7,7 +7,7 @@ class UserModel {
   String? name;
   String? email;
   String? cellphone;
-  String? location;
+  List<double>? location;
   String? password;
   String? token;
   String? profilePicture;
@@ -29,7 +29,7 @@ class UserModel {
         name: json['name'],
         email: json['email'],
         cellphone: json['cellphone'],
-        location: json['location'],
+        location: List<double>.from(json['location'].map((x) => x.toDouble())),
         password: json['password'],
         token: json['token'],
         profilePicture: json['profilePicture'],

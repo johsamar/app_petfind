@@ -8,10 +8,8 @@ import 'package:app_petfind/src/services/pet_service.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPetScreen extends StatefulWidget {
-  const RegisterPetScreen({super.key});
-
   @override
-  State<RegisterPetScreen> createState() => _RegisterPetScreenState();
+  _RegisterPetScreenState createState() => _RegisterPetScreenState();
 }
 
 class _RegisterPetScreenState extends State<RegisterPetScreen> {
@@ -76,9 +74,8 @@ class _RegisterPetScreenState extends State<RegisterPetScreen> {
                   'Registro',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
-                const Text('Bienvenido, por favor regístrate'),
-
-                createTextInput(name(_nameController)),
+                const Text('Bienvenido, por favor ingresa los datos de la mascota encontrada'),
+                
                 createTextInput(details(_detailController)),
 
                 createSelectInput(
@@ -180,7 +177,9 @@ class _RegisterPetScreenState extends State<RegisterPetScreen> {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text('Mascota creado con éxito')),
                 ),
-                Navigator.pushReplacementNamed(context, '/chat')
+                // vuelvo a la pantalla anterior
+                // y la refresco para que se vea la nueva mascota
+                Navigator.pop(context)
               }
 
             //Si es falso se muestra el mensaje de error

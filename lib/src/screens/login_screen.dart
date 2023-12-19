@@ -1,4 +1,6 @@
+import 'package:app_petfind/src/providers/AuthProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -13,6 +15,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Inicio de Sesión'),
@@ -50,7 +53,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
             // Botón de Iniciar Sesión
             ElevatedButton(
-              onPressed: _login,
+              onPressed: () => {
+                authProvider.login(),
+                authProvider.setUserId("657f70180062fc8b9d98797c"),
+                _login(),
+              },
               child: Text('Iniciar Sesión'),
             ),
             SizedBox(height: 12),
@@ -83,12 +90,11 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _login() {
-
     setState(() {
       _userValid = _userController.text.isNotEmpty;
       _passwordValid = _passwordController.text.isNotEmpty;
     });
 
-   Navigator.pushReplacementNamed(context, '/chat');
+    Navigator.pushReplacementNamed(context, '/chat');
   }
 }

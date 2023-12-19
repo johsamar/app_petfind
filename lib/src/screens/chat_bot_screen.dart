@@ -42,7 +42,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
       _addBotMessage(
           "Lo siento por eso. Por favor, ve a la pantalla de reporte de pérdida.");
       // Navegar a la pantalla de reporte de pérdida
-      Navigator.pushReplacementNamed(context, '/report');
+      Navigator.pushReplacementNamed(context, '/list_my_pets_to_report');
     } else if (message.toLowerCase().contains("reportar avistamiento")) {
       _addBotMessage(
           "¡Genial! Dirígete a la pantalla de reporte de avistamiento.");

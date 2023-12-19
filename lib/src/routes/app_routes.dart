@@ -1,5 +1,6 @@
 import 'package:app_petfind/src/screens/register_pet.dart';
 import 'package:app_petfind/src/screens/reports/list_my_pet_report.dart';
+import 'package:app_petfind/src/screens/reports/register_pet_report.dart';
 import 'package:app_petfind/src/screens/reports/report_screen.dart';
 import 'package:app_petfind/src/screens/welcome_screen.dart';
 import 'package:app_petfind/src/screens/chat_bot_screen.dart';
@@ -25,6 +26,7 @@ class AppRoutes {
   static const String registerPet = '/register_pet';
   static const String myPets = '/my_pets';
   static const String listMyPetsToReport = '/list_my_pets_to_report';
+  static const String reportSighting = '/report_sighting';
 
   static Map<String, WidgetBuilder> routes(BuildContext context) => {
         welcome: (context) => WelcomeScreen(),
@@ -37,6 +39,7 @@ class AppRoutes {
         map: (context) =>  MapScreen(),
         myPets: (context) =>  ListMyPets(),
         listMyPetsToReport: (context) =>  ListMyPetsToReport(),
+        reportSighting: (context) =>  RegisterPetReportScreen(),
 
       };
 
@@ -51,5 +54,6 @@ class AppRoutes {
         registerPet: 'Register Pet',
         myPets: 'My Pets',
         listMyPetsToReport: 'List My Pets To Report',
+        reportSighting: 'Report Sighting',
       };
 }

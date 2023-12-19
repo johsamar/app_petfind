@@ -13,7 +13,8 @@ import 'package:provider/provider.dart';
 
 class ReportScreen extends StatefulWidget {
   final PetModel pet;
-  const ReportScreen({super.key, required this.pet});
+  final String reportType;
+  const ReportScreen({super.key, required this.pet, required this.reportType});
 
   @override
   State<ReportScreen> createState() => _ReportScreenState();
@@ -22,6 +23,7 @@ class ReportScreen extends StatefulWidget {
 class _ReportScreenState extends State<ReportScreen> {
   final _formKey = GlobalKey<FormState>();
   PetModel get pet => widget.pet;
+  String get reportType => widget.reportType;
 
   final _detailController = TextEditingController();
 
@@ -99,7 +101,7 @@ class _ReportScreenState extends State<ReportScreen> {
       ReportModel reportModel = ReportModel(
           user: userId,
           pet_id: pet.id!,
-          type: 'perdida',
+          type: reportType,
           date: DateTime.now(),
           location: [
             _selectedLocation!.latitude,

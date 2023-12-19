@@ -47,7 +47,7 @@ class _ChatBotScreenState extends State<ChatBotScreen> {
       _addBotMessage(
           "¡Genial! Dirígete a la pantalla de reporte de avistamiento.");
       // Navegar a la pantalla de reporte de avistamiento
-      Navigator.pushReplacementNamed(context, '/report');
+      Navigator.pushReplacementNamed(context, '/report_sighting');
     } else {
       _addBotMessage("Lo siento, no entendí. ¿Puedes reformular tu solicitud?");
     }

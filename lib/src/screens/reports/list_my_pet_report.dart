@@ -58,7 +58,7 @@ class _ListMyPetsToReportState extends State<ListMyPetsToReport> {
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  pets[index].name,
+                                  pets[index].name!,
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
@@ -92,6 +92,7 @@ class _ListMyPetsToReportState extends State<ListMyPetsToReport> {
                             MaterialPageRoute(
                               builder: (context) => ReportScreen(
                                 pet: selectedPet,
+                                reportType: 'perdida',
                               ),
                             ),
                           );

@@ -1,10 +1,13 @@
 import 'package:app_petfind/src/providers/AuthProvider.dart';
+import 'package:app_petfind/src/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
@@ -20,7 +23,8 @@ class _LoginScreenState extends State<LoginScreen> {
       appBar: AppBar(
         title: Text('Inicio de Sesión'),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
+        child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -53,10 +57,26 @@ class _LoginScreenState extends State<LoginScreen> {
 
             // Botón de Iniciar Sesión
             ElevatedButton(
-              onPressed: () => {
-                authProvider.login(),
-                authProvider.setUserId("657f70180062fc8b9d98797c"),
-                _login(),
+              onPressed: () {
+                var response =
+                    login(_userController.text, _passwordController.text);
+
+                response.then((value) => {
+                      if (value != null)
+                        {
+                          authProvider.login(),
+                          authProvider.setUserId(value),
+                          _login(),
+                        }
+                      else
+                        {
+                          // mensaje de error
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Error al crear la mascota')),
+                          )
+                        }
+                    });
               },
               child: Text('Iniciar Sesión'),
             ),
@@ -86,15 +106,11 @@ class _LoginScreenState extends State<LoginScreen> {
           ],
         ),
       ),
+      )
     );
   }
 
   void _login() {
-    setState(() {
-      _userValid = _userController.text.isNotEmpty;
-      _passwordValid = _passwordController.text.isNotEmpty;
-    });
-
     Navigator.pushReplacementNamed(context, '/chat');
   }
 }

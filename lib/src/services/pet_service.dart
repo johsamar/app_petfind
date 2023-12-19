@@ -32,7 +32,7 @@ Future<bool> createPet(PetModel pet, List<File> images) async {
 
     FormData formData = FormData.fromMap({
       'files': files,
-      'name': pet.name,
+      'name': pet.name!,
       'details': pet.details,
       'breed': pet.breed,
       'specie': pet.specie,
@@ -55,4 +55,44 @@ Future<bool> createPet(PetModel pet, List<File> images) async {
     return false;
   }
   return false;
+}
+
+Future<PetModel?> createPetSighting(PetModel pet, List<File> images) async {
+  try {
+    List<MultipartFile> files = [];
+
+    for (File image in images) {
+      files.add(
+        await MultipartFile.fromFile(
+          image.path,
+          filename: image.path.split('/').last,
+        ),
+      );
+    }
+
+    FormData formData = FormData.fromMap({
+      'files': files,
+      'details': pet.details,
+      'breed': pet.breed,
+      'specie': pet.specie,
+      'color': pet.color,
+      'size': pet.size,
+      'age': pet.age,
+      'reporter': pet.reporter,
+    });
+
+    Response response = await dio.post(
+      '$baseUrl/pets/register-sighting',
+      data: formData,
+    );
+
+    if (response.statusCode == HttpStatus.ok) {
+      print(response.data);
+      return PetModel.fromJson(response.data["pet"]);
+    }
+  } catch (e) {
+    print(e);
+    return null;
+  }
+  return null;
 }

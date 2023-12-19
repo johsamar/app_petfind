@@ -60,7 +60,7 @@ class _ListMyPetsState extends State<ListMyPets> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            pets[index].name,
+                            pets[index].name!,
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,

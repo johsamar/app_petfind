@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 class PetModel {
   String? id;
-  String name;
+  String? name;
   String details;
   String breed;
   String specie;
@@ -11,11 +11,12 @@ class PetModel {
   String size;
   String age;
   List<String>? images;
-  String owner;
+  String? owner;
+  String? reporter;
 
   PetModel(
       {this.id,
-      required this.name,
+      this.name,
       required this.details,
       required this.breed,
       required this.specie,
@@ -23,7 +24,8 @@ class PetModel {
       required this.size,
       required this.age,
       this.images,
-      required this.owner});
+      this.reporter,
+      this.owner});
 
   factory PetModel.fromJson(Map<String, dynamic> json) => PetModel(
         id: json['id'],
@@ -37,6 +39,7 @@ class PetModel {
         images: json['images'] != null
             ? List<String>.from(json['images'].map((x) => x))
             : null,
+        reporter: json['reporter'],
         owner: json['owner'],
       );
 
@@ -49,7 +52,9 @@ class PetModel {
         'color': color,
         'size': size,
         'age': age,
-        'images': images != null ? List<dynamic>.from(images!.map((x) => x)) : null,
+        'images':
+            images != null ? List<dynamic>.from(images!.map((x) => x)) : null,
+        'reporter': reporter,
         'owner': owner,
       };
 }

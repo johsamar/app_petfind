@@ -3,16 +3,22 @@ import 'dart:io';
 import 'package:app_petfind/src/helpers/config_forms/register_pet/structure.dart';
 import 'package:app_petfind/src/helpers/functions/inputs.dart';
 import 'package:app_petfind/src/models/PetModel.dart';
+import 'package:app_petfind/src/providers/AuthProvider.dart';
 import 'package:app_petfind/src/screens/charge_images.dart';
+import 'package:app_petfind/src/screens/reports/report_screen.dart';
 import 'package:app_petfind/src/services/pet_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class RegisterPetScreen extends StatefulWidget {
+class RegisterPetReportScreen extends StatefulWidget {
+  const RegisterPetReportScreen({super.key});
+
   @override
-  _RegisterPetScreenState createState() => _RegisterPetScreenState();
+  State<RegisterPetReportScreen> createState() =>
+      _RegisterPetReportScreenState();
 }
 
-class _RegisterPetScreenState extends State<RegisterPetScreen> {
+class _RegisterPetReportScreenState extends State<RegisterPetReportScreen> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _detailController = TextEditingController();
@@ -58,6 +64,7 @@ class _RegisterPetScreenState extends State<RegisterPetScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Registro'),
@@ -74,8 +81,9 @@ class _RegisterPetScreenState extends State<RegisterPetScreen> {
                   'Registro',
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
-                const Text('Bienvenido, por favor ingresa los datos de la mascota encontrada'),
-                
+                const Text(
+                    'Bienvenido, por favor ingresa los datos de la mascota encontrada'),
+
                 createTextInput(details(_detailController)),
 
                 createSelectInput(
@@ -140,7 +148,9 @@ class _RegisterPetScreenState extends State<RegisterPetScreen> {
 
                 // Botón de registro
                 ElevatedButton(
-                  onPressed: _savePet,
+                  onPressed: () {
+                    _savePet(authProvider.userId!);
+                  },
                   child: const Text('Registrar'),
                 ),
               ],
@@ -151,27 +161,26 @@ class _RegisterPetScreenState extends State<RegisterPetScreen> {
     );
   }
 
-  Future<void> _savePet() async {
+  Future<void> _savePet(String reporter) async {
     if (_formKey.currentState!.validate()) {
       _validateSelects();
       // _isLoading = true;
 
       PetModel pet = PetModel(
-        name: _nameController.text,
         details: _detailController.text,
         specie: _specieController.text,
         breed: _breedController.text,
         color: _colorController.text,
         size: _sizeController.text,
         age: _ageController.text,
-        owner: '657f70180062fc8b9d98797c',
+        reporter: reporter,
       );
 
-      var response = createPet(pet, _selectedImages);
+      var response = createPetSighting(pet, _selectedImages);
 
       response.then((value) => {
             //Si es verdadero se muestra el mensaje de éxito y vuleve la pantalla anterior
-            if (value == true)
+            if (value != null)
               {
                 // _isLoading = false,
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -179,7 +188,15 @@ class _RegisterPetScreenState extends State<RegisterPetScreen> {
                 ),
                 // vuelvo a la pantalla anterior
                 // y la refresco para que se vea la nueva mascota
-                Navigator.pop(context)
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ReportScreen(
+                      pet: value,
+                      reportType: "vista"
+                    ),
+                  ),
+                ),
               }
 
             //Si es falso se muestra el mensaje de error
@@ -226,19 +243,4 @@ class _RegisterPetScreenState extends State<RegisterPetScreen> {
       return;
     }
   }
-
-  // Future<List<File>> convertAssetsToFiles(List<Asset> assets) async {
-  //   List<File> files = [];
-
-  //   for (Asset asset in assets) {
-  //     ByteData byteData = await asset.getByteData();
-  //     Uint8List uint8List = byteData.buffer.asUint8List();
-  //     File file = File.fromRawPath(uint8List.buffer.asUint8List());
-  //     files.add(file);
-  //     //para ver el nombre del archivo y el path
-  //     print('file: ${file.path} ');
-  //   }
-
-  //   return files;
-  // }
 }

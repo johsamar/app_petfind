@@ -25,6 +25,7 @@ class AppRoutes {
   static const String picker = '/picker';
   static const String registerPet = '/register_pet';
   static const String myPets = '/my_pets';
+  static const String petReported = '/pet_reported';
   static const String listMyPetsToReport = '/list_my_pets_to_report';
   static const String reportSighting = '/report_sighting';
 
@@ -33,14 +34,14 @@ class AppRoutes {
         home: (context) => WelcomeScreen(),
         login: (context) => LoginScreen(),
         // picker: (context) => ImagePickerScreen(),
-        registerPet: (context) =>  RegisterPetScreen(),
-        register: (context) =>  RegisterScreen(),
-        chat: (context) =>  ChatBotScreen(),
-        map: (context) =>  MapScreen(),
-        myPets: (context) =>  ListMyPets(),
-        listMyPetsToReport: (context) =>  ListMyPetsToReport(),
-        reportSighting: (context) =>  RegisterPetReportScreen(),
-
+        registerPet: (context) => RegisterPetScreen(),
+        register: (context) => RegisterScreen(),
+        chat: (context) => ChatBotScreen(),
+        map: (context) => MapScreen(),
+        myPets: (context) => ListMyPets(),
+        listMyPetsToReport: (context) => ListMyPetsToReport(),
+        reportSighting: (context) => RegisterPetReportScreen(),
+        petReported: (context) => PetReportScreen(report: null)
       };
 
   static Map<String, String> names(BuildContext context) => {
@@ -55,5 +56,6 @@ class AppRoutes {
         myPets: 'My Pets',
         listMyPetsToReport: 'List My Pets To Report',
         reportSighting: 'Report Sighting',
+        petReported: 'Pet Reported'
       };
 }

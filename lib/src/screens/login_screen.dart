@@ -73,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           // mensaje de error
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                                content: Text('Error al crear la mascota')),
+                                content: Text('Usuario o contraseña inválida')),
                           )
                         }
                     });
